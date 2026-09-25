@@ -1,0 +1,18 @@
+Para compilar el servidor en linux / macOS:
+cc server.c adapter_svc.c utils.c -o server
+
+Para compilar el servidor en windows:
+gcc server.c adapter_svc.c utils.c -o server.exe -lws2_32
+
+Para ejecutar (escucha en el puerto 8888):
+./server
+
+Los datos se guardan en "personas.dat" en el directorio desde donde se
+ejecuta el servidor (se crea automaticamente).
+
+Archivos:
+  server.c        Procedimientos guardar_persona / recuperar_persona
+                  (sin codigo de red; almacenan y leen el archivo)
+  adapter_svc.c   Adaptador del servidor (skeleton) y main()
+  utils.c         Sockets: initialization, connection, close_socket
+  server.h        Tipos, constantes y prototipos
