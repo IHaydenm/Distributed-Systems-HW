@@ -55,13 +55,13 @@ static int get_person(int s, Person * p)
 
     memset(p, 0, sizeof(Person));
 
-    if (get_u32(s, &id) < 0)                        return -1;
+    if (get_u32(s, &id) < 0) return -1;
     p->id = (int) id;
-    if (get_str(s, p->name) < 0)                    return -1;
-    if (get_str(s, p->address.street) < 0)          return -1;
-    if (get_u32(s, &number) < 0)                    return -1;
+    if (get_str(s, p->name) < 0) return -1;
+    if (get_str(s, p->address.street) < 0) return -1;
+    if (get_u32(s, &number) < 0) return -1;
     p->address.number = (int) number;
-    if (get_str(s, p->address.city) < 0)            return -1;
+    if (get_str(s, p->address.city) < 0) return -1;
     return 0;
 }
 
@@ -91,23 +91,23 @@ static int put_str(Buffer * b, const char * s)
 
 static int put_person(Buffer * b, const Person * p)
 {
-    if (put_u32(b, (uint32_t) p->id) < 0)            return -1;
-    if (put_str(b, p->name) < 0)                     return -1;
-    if (put_str(b, p->address.street) < 0)           return -1;
+    if (put_u32(b, (uint32_t) p->id) < 0) return -1;
+    if (put_str(b, p->name) < 0) return -1;
+    if (put_str(b, p->address.street) < 0) return -1;
     if (put_u32(b, (uint32_t) p->address.number) < 0) return -1;
-    if (put_str(b, p->address.city) < 0)             return -1;
+    if (put_str(b, p->address.city) < 0) return -1;
     return 0;
 }
 
 static int dispatch(int client_sock)
 {
     uint32_t op;
-    Person   p;
-    Buffer   b;
-    int      status;
+    Person p;
+    Buffer b;
+    int status;
 
-    if (get_u32(client_sock, &op) < 0)          return -1;
-    if (get_person(client_sock, &p) < 0)        return -1;
+    if (get_u32(client_sock, &op) < 0) return -1;
+    if (get_person(client_sock, &p) < 0) return -1;
 
     switch (op) {
         case OP_SAVE:
