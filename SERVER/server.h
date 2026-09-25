@@ -30,22 +30,22 @@
 
 typedef struct {
     char street[MAX_STR];
-    int  number;
+    int number;
     char city[MAX_STR];
 } Address;
 
 typedef struct {
-    int     id;
-    char    name[MAX_STR];
+    int id;
+    char name[MAX_STR];
     Address address;
 } Person;
 
-#define RPC_OK             0
-#define RPC_NOT_FOUND      -1
-#define RPC_FILE_ERROR     -2
+#define RPC_OK 0
+#define RPC_NOT_FOUND -1
+#define RPC_FILE_ERROR -2
 #define RPC_PROTOCOL_ERROR -3
 
-#define OP_SAVE     1
+#define OP_SAVE 1
 #define OP_RETRIEVE 2
 
 int initialization(void);

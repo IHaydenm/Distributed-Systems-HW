@@ -1,18 +1,13 @@
 #include "client.h"
-
 int sock;
 char * host;
 
-static void copy_string(char * dst, const char * src)
-{
+static void copy_string(char * dst, const char * src){
     strncpy(dst, src, MAX_STR - 1);
     dst[MAX_STR - 1] = '\0';
 }
 
-static void init_person(Person * p, const char * name,
-                        const char * street, int number,
-                        const char * city)
-{
+static void init_person(Person * p, const char * name, const char * street, int number, const char * city){
     memset(p, 0, sizeof(Person));
     p->id = 0;
     copy_string(p->name, name);
@@ -21,24 +16,22 @@ static void init_person(Person * p, const char * name,
     copy_string(p->address.city, city);
 }
 
-static void print_person(const char * title, const Person * p)
-{
+static void print_person(const char * title, const Person * p){
     printf("%s\n", title);
-    printf("    id      : %d\n", p->id);
-    printf("    name    : %s\n", p->name);
-    printf("    address : %s #%d, %s\n\n",
+    printf("id : %d\n", p->id);
+    printf("name : %s\n", p->name);
+    printf("address: %s #%d, %s\n\n",
            p->address.street, p->address.number, p->address.city);
 }
 
-static int demo(Person * p)
-{
+static int demo(Person * p){
     Person q;
     int r;
 
     print_person("[1] Structure initialized on the client:", p);
 
     r = save_person(p);
-    printf("    save_person() -> %d\n\n", r);
+    printf("save_person() -> %d\n\n", r);
     if (r != RPC_OK) return r;
     print_person("[2] Structure after the call (id assigned by the server):", p);
 
@@ -64,12 +57,10 @@ static int demo(Person * p)
     printf("[5] retrieve_person(id=9999) -> %d (%s)\n", r,
            r == RPC_NOT_FOUND ? "not found, as expected"
                                : "unexpected result");
-
     return (r == RPC_NOT_FOUND) ? RPC_OK : RPC_PROTOCOL_ERROR;
 }
 
-int main( int argc, char * argv[] )
-{
+int main( int argc, char * argv[] ){
     Person p;
     int result;
 
@@ -85,11 +76,8 @@ int main( int argc, char * argv[] )
         init_person(&p, argv[2], argv[3], atoi(argv[4]), argv[5]);
     else
         init_person(&p, "John Smith", "Main Street", 123, "Springfield");
-
     sock = connection();
-
     result = demo(&p);
-
     close_socket(sock);
     return (result == RPC_OK) ? 0 : 1;
 }
