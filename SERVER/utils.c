@@ -1,11 +1,9 @@
 #include "server.h"
-
 #ifndef _WIN32
     #include <signal.h>
 #endif
 
-int initialization(void)
-{
+int initialization(void){
     int socket_desc;
     struct sockaddr_in server;
 
@@ -16,10 +14,8 @@ int initialization(void)
         return -1;
     }
 #else
-
     signal(SIGPIPE, SIG_IGN);
 #endif
-
     socket_desc = socket(AF_INET, SOCK_STREAM, 0);
 
 #ifdef _WIN32
@@ -39,7 +35,6 @@ int initialization(void)
     }
 #endif
     puts("Socket created");
-
     memset(&server, 0, sizeof(server));
     server.sin_family = AF_INET;
     server.sin_addr.s_addr = INADDR_ANY;
@@ -54,15 +49,12 @@ int initialization(void)
         return -1;
     }
     puts("bind done");
-
     listen(socket_desc, 3);
     puts("Waiting for incoming connections...");
-
     return socket_desc;
 }
 
-int connection(int socket_desc)
-{
+int connection(int socket_desc){
     struct sockaddr_in client;
     int client_sock;
     socklen_t c = sizeof(client);
@@ -84,8 +76,7 @@ int connection(int socket_desc)
     return client_sock;
 }
 
-int close_socket(int sock)
-{
+int close_socket(int sock){
 #ifdef _WIN32
     return closesocket(sock);
 #else

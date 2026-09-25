@@ -1,9 +1,6 @@
 #include "client.h"
-
 extern char * host;
-
-int connection(void)
-{
+int connection(void){
     int sock;
     struct sockaddr_in server;
 
@@ -14,9 +11,7 @@ int connection(void)
         exit(1);
     }
 #endif
-
     sock = socket(AF_INET, SOCK_STREAM, 0);
-
 #ifdef _WIN32
     if(sock == INVALID_SOCKET) {
         printf("Could not create socket. Error Code : %d\n", WSAGetLastError());
@@ -29,7 +24,6 @@ int connection(void)
     }
 #endif
     puts("Socket created");
-
     memset(&server, 0, sizeof(server));
     server.sin_addr.s_addr = inet_addr(host);
     server.sin_family = AF_INET;
@@ -47,14 +41,12 @@ int connection(void)
         perror("connect failed. Error");
 #endif
         exit(1);
-    }
-
+}
     puts("Connected\n");
     return sock;
 }
 
-int close_socket(int sock)
-{
+int close_socket(int sock){
     int res;
 #ifdef _WIN32
     res = closesocket(sock);

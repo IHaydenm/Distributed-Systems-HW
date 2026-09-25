@@ -5,8 +5,7 @@ typedef struct {
     int  len;
 } Buffer;
 
-static int send_all(int s, const char * data, int length)
-{
+static int send_all(int s, const char * data, int length){
     int total_sent = 0;
     while (total_sent < length) {
         int sent = send(s, data + total_sent, length - total_sent, 0);
@@ -16,8 +15,7 @@ static int send_all(int s, const char * data, int length)
     return total_sent;
 }
 
-static int recv_all(int s, char * data, int length)
-{
+static int recv_all(int s, char * data, int length){
     int total = 0;
     while (total < length) {
         int n = recv(s, data + total, length - total, 0);
@@ -27,16 +25,14 @@ static int recv_all(int s, char * data, int length)
     return total;
 }
 
-static int get_u32(int s, uint32_t * value)
-{
+static int get_u32(int s, uint32_t * value){
     uint32_t net;
     if (recv_all(s, (char *) &net, sizeof(net)) < 0) return -1;
     *value = ntohl(net);
     return 0;
 }
 
-static int get_str(int s, char * dst)
-{
+static int get_str(int s, char * dst){
     uint32_t length;
 
     if (get_u32(s, &length) < 0) return -1;
@@ -49,8 +45,7 @@ static int get_str(int s, char * dst)
     return 0;
 }
 
-static int get_person(int s, Person * p)
-{
+static int get_person(int s, Person * p){
     uint32_t id, number;
 
     memset(p, 0, sizeof(Person));
@@ -65,8 +60,7 @@ static int get_person(int s, Person * p)
     return 0;
 }
 
-static int put_u32(Buffer * b, uint32_t value)
-{
+static int put_u32(Buffer * b, uint32_t value){
     uint32_t net = htonl(value);
     if (b->len + (int) sizeof(net) > MAX_MSG) return -1;
     memcpy(b->data + b->len, &net, sizeof(net));
@@ -74,8 +68,7 @@ static int put_u32(Buffer * b, uint32_t value)
     return 0;
 }
 
-static int put_str(Buffer * b, const char * s)
-{
+static int put_str(Buffer * b, const char * s){
     const char * end = (const char *) memchr(s, '\0', MAX_STR);
     uint32_t length;
 
@@ -89,8 +82,7 @@ static int put_str(Buffer * b, const char * s)
     return 0;
 }
 
-static int put_person(Buffer * b, const Person * p)
-{
+static int put_person(Buffer * b, const Person * p){
     if (put_u32(b, (uint32_t) p->id) < 0) return -1;
     if (put_str(b, p->name) < 0) return -1;
     if (put_str(b, p->address.street) < 0) return -1;
@@ -99,8 +91,7 @@ static int put_person(Buffer * b, const Person * p)
     return 0;
 }
 
-static int dispatch(int client_sock)
-{
+static int dispatch(int client_sock){
     uint32_t op;
     Person p;
     Buffer b;
@@ -135,8 +126,7 @@ static int dispatch(int client_sock)
     return 0;
 }
 
-int main(void)
-{
+int main(void){
     int socket_desc;
 
     setbuf(stdout, NULL);

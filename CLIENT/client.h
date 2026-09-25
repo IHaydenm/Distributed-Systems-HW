@@ -14,7 +14,6 @@
 #ifdef _WIN32
     #include <winsock2.h>
     #include <ws2tcpip.h>
-
     #pragma comment(lib, "ws2_32.lib")
 #else
     #include <unistd.h>
@@ -39,12 +38,12 @@ typedef struct {
     Address address;
 } Person;
 
-#define RPC_OK             0
-#define RPC_NOT_FOUND     -1
-#define RPC_FILE_ERROR    -2
+#define RPC_OK 0
+#define RPC_NOT_FOUND -1
+#define RPC_FILE_ERROR -2
 #define RPC_PROTOCOL_ERROR -3
 
-#define OP_SAVE     1
+#define OP_SAVE 1
 #define OP_RETRIEVE 2
 
 int connection(void);

@@ -1,23 +1,19 @@
 #include "server.h"
-
 #define DATA_FILE "people.dat"
 
-static FILE * open_file(void)
-{
+static FILE * open_file(void){
     FILE * fp = fopen(DATA_FILE, "rb+");
     if (fp == NULL)
         fp = fopen(DATA_FILE, "wb+");
     return fp;
 }
 
-static long count_records(FILE * fp)
-{
+static long count_records(FILE * fp){
     fseek(fp, 0, SEEK_END);
     return ftell(fp) / (long) sizeof(Person);
 }
 
-int save_person(Person * p)
-{
+int save_person(Person * p){
     FILE * fp;
     long total;
     int is_new = (p->id == 0);
@@ -50,8 +46,7 @@ int save_person(Person * p)
     return RPC_OK;
 }
 
-int retrieve_person(Person * p)
-{
+int retrieve_person(Person * p){
     Person stored;
     FILE * fp;
 
