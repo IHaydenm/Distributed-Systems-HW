@@ -38,7 +38,7 @@ static int demo(Person * p)
     print_person("[1] Structure initialized on the client:", p);
 
     r = save_person(p);
-    printf("    save_person() -> %d\n\n", r);
+    printf("save_person() -> %d\n\n", r);
     if (r != RPC_OK) return r;
     print_person("[2] Structure after the call (id assigned by the server):", p);
 
