@@ -66,11 +66,11 @@ static int put_str(Buffer * b, const char * s)
 
 static int put_person(Buffer * b, const Person * p)
 {
-    if (put_u32(b, (uint32_t) p->id) < 0)            return -1;
-    if (put_str(b, p->name) < 0)                     return -1;
-    if (put_str(b, p->address.street) < 0)           return -1;
+    if (put_u32(b, (uint32_t) p->id) < 0) return -1;
+    if (put_str(b, p->name) < 0) return -1;
+    if (put_str(b, p->address.street) < 0) return -1;
     if (put_u32(b, (uint32_t) p->address.number) < 0) return -1;
-    if (put_str(b, p->address.city) < 0)             return -1;
+    if (put_str(b, p->address.city) < 0) return -1;
     return 0;
 }
 
