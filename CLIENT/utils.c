@@ -15,7 +15,6 @@ int connection(void)
     }
 #endif
 
-    // Create socket
     sock = socket(AF_INET, SOCK_STREAM, 0);
 
 #ifdef _WIN32
@@ -41,7 +40,6 @@ int connection(void)
         exit(1);
     }
 
-    // Connect to remote server
     if (connect(sock, (struct sockaddr *) &server, sizeof(server)) < 0) {
 #ifdef _WIN32
         printf("connect failed. Error: %d\n", WSAGetLastError());
@@ -55,7 +53,6 @@ int connection(void)
     return sock;
 }
 
-// Abstraccion para el cierre de conexiones en el cliente
 int close_socket(int sock)
 {
     int res;

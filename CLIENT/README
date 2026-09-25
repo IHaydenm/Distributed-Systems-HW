@@ -1,19 +1,19 @@
-Para compilar en linux / macOS:
+To compile on Linux / macOS:
 cc client.c adapter_clnt.c utils.c -o client
 
-Para compilar en windows:
+To compile on Windows:
 gcc client.c adapter_clnt.c utils.c -o client.exe -lws2_32
 
-Para ejecutar en linux / macOS (el servidor ya debe estar corriendo):
+To run on Linux / macOS (the server must already be running):
 ./client 127.0.0.1
-./client 127.0.0.1 "Ana Lopez" "Av. Juarez" 800 "Puebla"
+./client 127.0.0.1 "Ana Lopez" "Juarez Ave" 800 "Puebla"
 
-Para ejecutar en windows:
+To run on Windows:
 client.exe 127.0.0.1
-client.exe 127.0.0.1 "Ana Lopez" "Av. Juarez" 800 "Puebla"
+client.exe 127.0.0.1 "Ana Lopez" "Juarez Ave" 800 "Puebla"
 
-Archivos:
-  client.c        Inicializa y modifica la estructura; llama a los servicios
-  adapter_clnt.c  Adaptador del cliente (stub): empaqueta, envia, recibe
-  utils.c         Conexion por socket
-  client.h        Tipos, constantes y prototipos
+Files:
+  client.c        Initializes and modifies the structure; calls the services
+  adapter_clnt.c  Client-side adapter (stub): packs, sends, receives
+  utils.c         Socket connection
+  client.h        Types, constants and prototypes

@@ -1,18 +1,18 @@
-Para compilar el servidor en linux / macOS:
+To compile the server on Linux / macOS:
 cc server.c adapter_svc.c utils.c -o server
 
-Para compilar el servidor en windows:
+To compile the server on Windows:
 gcc server.c adapter_svc.c utils.c -o server.exe -lws2_32
 
-Para ejecutar (escucha en el puerto 8888):
+To run (listens on port 8888):
 ./server
 
-Los datos se guardan en "personas.dat" en el directorio desde donde se
-ejecuta el servidor (se crea automaticamente).
+Data is stored in "people.dat" in the directory the server is run from
+(it is created automatically).
 
-Archivos:
-  server.c        Procedimientos guardar_persona / recuperar_persona
-                  (sin codigo de red; almacenan y leen el archivo)
-  adapter_svc.c   Adaptador del servidor (skeleton) y main()
+Files:
+  server.c        save_person / retrieve_person procedures
+                  (no networking code; they store and read the file)
+  adapter_svc.c   Server-side adapter (skeleton) and main()
   utils.c         Sockets: initialization, connection, close_socket
-  server.h        Tipos, constantes y prototipos
+  server.h        Types, constants and prototypes

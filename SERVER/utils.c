@@ -16,12 +16,10 @@ int initialization(void)
         return -1;
     }
 #else
-    // Si un cliente se cae a media respuesta, send() debe regresar un error
-    // en lugar de terminar el proceso del servidor con SIGPIPE
+
     signal(SIGPIPE, SIG_IGN);
 #endif
 
-    // Create socket
     socket_desc = socket(AF_INET, SOCK_STREAM, 0);
 
 #ifdef _WIN32
@@ -35,7 +33,6 @@ int initialization(void)
         return -1;
     }
 
-    // Permite reiniciar el servidor sin esperar a que el puerto se libere
     {
         int opt = 1;
         setsockopt(socket_desc, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
@@ -43,13 +40,11 @@ int initialization(void)
 #endif
     puts("Socket created");
 
-    // Prepare the sockaddr_in structure
     memset(&server, 0, sizeof(server));
     server.sin_family = AF_INET;
     server.sin_addr.s_addr = INADDR_ANY;
     server.sin_port = htons( PORT_NUM );
 
-    // Bind
     if(bind(socket_desc, (struct sockaddr *) &server, sizeof(server)) < 0) {
 #ifdef _WIN32
         printf("bind failed. Error: %d\n", WSAGetLastError());
@@ -60,7 +55,6 @@ int initialization(void)
     }
     puts("bind done");
 
-    // Listen (Se debe invocar una sola vez al inicializar el servicio)
     listen(socket_desc, 3);
     puts("Waiting for incoming connections...");
 
@@ -73,7 +67,6 @@ int connection(int socket_desc)
     int client_sock;
     socklen_t c = sizeof(client);
 
-    // Accept connection from an incoming client
     client_sock = accept( socket_desc,
                           (struct sockaddr *) &client,
                           &c );
@@ -91,7 +84,6 @@ int connection(int socket_desc)
     return client_sock;
 }
 
-// Implementacion de close_socket para abstraer POSIX vs Winsock
 int close_socket(int sock)
 {
 #ifdef _WIN32

@@ -1,42 +1,42 @@
-PRACTICA RPC - Transferencia de una estructura compleja por referencia
-======================================================================
+RPC PRACTICE - Passing a complex structure by reference
+=========================================================
 
-Estructura (definida en CLIENT/client.h y SERVER/server.h):
+Structure (defined in CLIENT/client.h and SERVER/server.h):
 
-    Persona { id, nombre, Direccion { calle, numero, ciudad } }
+    Person { id, name, Address { street, number, city } }
 
-Procedimientos remotos (la estructura se pasa POR REFERENCIA, copy-restore):
+Remote procedures (the structure is passed BY REFERENCE, copy-restore):
 
-    int guardar_persona(Persona *p);    id==0: alta, el servidor asigna el id
-                                        id>0 : actualiza el registro
-    int recuperar_persona(Persona *p);  usa p->id y llena el resto desde archivo
+    int save_person(Person *p);     id==0: create, the server assigns the id
+                                    id>0 : updates the existing record
+    int retrieve_person(Person *p); uses p->id and fills in the rest from the file
 
-Codigos de retorno:  0 = OK, -1 = no encontrado, -2 = error de archivo,
-                    -3 = error de comunicacion / protocolo
+Return codes:  0 = OK, -1 = not found, -2 = file error,
+              -3 = communication / protocol error
 
-Organizacion:
+Layout:
 
-    centralizada.c            Version centralizada (todo en un programa)
+    centralized.c              Centralized version (everything in one program)
     CLIENT/
-        client.c              Cliente: inicializa / modifica la estructura
-        adapter_clnt.c        Adaptador del cliente (stub)
+        client.c              Client: initializes / modifies the structure
+        adapter_clnt.c        Client-side adapter (stub)
         utils.c, client.h
     SERVER/
-        server.c              Servicios: almacenan y recuperan del archivo
-        adapter_svc.c         Adaptador del servidor (skeleton) + main()
+        server.c              Services: store and retrieve from the file
+        adapter_svc.c         Server-side adapter (skeleton) + main()
         utils.c, server.h
 
-Prueba rapida (dos terminales):
+Quick test (two terminals):
 
     Terminal 1:  cd SERVER && cc server.c adapter_svc.c utils.c -o server && ./server
     Terminal 2:  cd CLIENT && cc client.c adapter_clnt.c utils.c -o client && ./client 127.0.0.1
 
-Version centralizada:
+Centralized version:
 
-    cc centralizada.c -o centralizada && ./centralizada
+    cc centralized.c -o centralized && ./centralized
 
-Formato de los mensajes (enteros de 4 bytes en Network Byte Order):
+Message format (4-byte integers in Network Byte Order):
 
-    Peticion : [op][id][nombre][calle][numero][ciudad]
-    Respuesta: [status][id][nombre][calle][numero][ciudad]
-    Cadena   : [longitud incluyendo '\0'][bytes]
+    Request : [op][id][name][street][number][city]
+    Response: [status][id][name][street][number][city]
+    String  : [length including '\0'][bytes]
