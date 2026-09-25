@@ -41,11 +41,11 @@ int initialization(void){
     server.sin_port = htons( PORT_NUM );
 
     if(bind(socket_desc, (struct sockaddr *) &server, sizeof(server)) < 0) {
-#ifdef _WIN32
-        printf("bind failed. Error: %d\n", WSAGetLastError());
-#else
-        perror("bind failed. Error");
-#endif
+        #ifdef _WIN32
+                printf("bind failed. Error: %d\n", WSAGetLastError());
+        #else
+                perror("bind failed. Error");
+        #endif
         return -1;
     }
     puts("bind done");
@@ -58,17 +58,14 @@ int connection(int socket_desc){
     struct sockaddr_in client;
     int client_sock;
     socklen_t c = sizeof(client);
-
-    client_sock = accept( socket_desc,
-                          (struct sockaddr *) &client,
-                          &c );
+    client_sock = accept( socket_desc, (struct sockaddr *) &client, &c );
 
     if(client_sock < 0) {
-#ifdef _WIN32
-        printf("accept failed. Error: %d\n", WSAGetLastError());
-#else
-        perror("accept failed");
-#endif
+        #ifdef _WIN32
+                printf("accept failed. Error: %d\n", WSAGetLastError());
+        #else
+                perror("accept failed");
+        #endif
         return -1;
     }
     puts("Connection accepted");
@@ -77,9 +74,9 @@ int connection(int socket_desc){
 }
 
 int close_socket(int sock){
-#ifdef _WIN32
-    return closesocket(sock);
-#else
-    return close(sock);
-#endif
+    #ifdef _WIN32
+        return closesocket(sock);
+    #else
+        return close(sock);
+    #endif
 }
